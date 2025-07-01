@@ -16,7 +16,7 @@ describe("Counter Component", () => {
     render(<Counter initialValue={5} title="Custom Counter" />);
 
     expect(screen.getByText("Custom Counter")).toBeInTheDocument();
-    expect(screen.getByText("5")).not.toBeInTheDocument();
+    expect(screen.getByText("5")).toBeInTheDocument();
   });
 
   test("increments counter when + button is clicked", () => {
