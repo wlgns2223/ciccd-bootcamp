@@ -34,6 +34,9 @@ jobs:
       - name: Run linting
         run: npm run lint
 
+      - name: Run tests
+        run: npm run test
+
       # 5단계: 빌드 테스트
       - name: Build application
         run: npm run build
