@@ -1,7 +1,8 @@
-name: first workflow
+name: context test
 on:
   push:
     branches: [main, develop, fesi10]
+  pull_request:
 
 jobs:
   echo:
@@ -17,3 +18,14 @@ jobs:
       - name: fesi10 브랜치에서만 실행되는 step
         if: github.ref_name == 'fesi10'
         run: echo 'fesi10 브랜치 ${{ github.ref_name }} '
+
+  event:
+    runs-on: ubuntu-latest
+    steps:
+      - name: push 이벤트
+        if: github.event_name == 'push'
+        run: echo '${{ toJson(github.event) }}'
+
+      - name: pull request 이벤트
+        if: github.event_name == 'pull_request'
+        run: echo '${{ toJson(github.event) }}'
