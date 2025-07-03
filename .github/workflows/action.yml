@@ -4,9 +4,7 @@ on:
     types: [closed]
     branches:
       - develop
-  workflow_run:
-    branches:
-      - develop
+  workflow_dispatch:
 
 jobs:
   lint-test-build:
