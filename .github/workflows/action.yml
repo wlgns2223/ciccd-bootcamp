@@ -1,8 +1,7 @@
 name: first workflow
 on:
   pull_request:
-    branches:
-      - develop # open -> merge될 base branch
+    types: ["closed"]
 
   # push:
   #   branches: [main, develop]
