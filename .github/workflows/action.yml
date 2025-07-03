@@ -3,6 +3,7 @@ on: [pull_request, push]
 
 jobs:
   exercise2_2:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
@@ -12,19 +13,19 @@ jobs:
         run: npm ci
 
       - name: PR이 열릴때
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        if: github.event.action == 'opened'
         run: npm run test
 
       - name: PR에 새로운 커밋이 푸쉬됐을때
-        if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+        if: github.event.action == 'synchronize'
         run: npm run test
 
       - name: PR이 닫힐때
-        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        if: github.event.action == 'closed'
         run: echo '임시 파일 삭제...'
 
   exercise2_4_feat:
-    if: github.ref_name == 'feat/*'
+    if: startsWith(github.ref_name,'feat/')
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
