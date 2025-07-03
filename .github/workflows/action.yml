@@ -1,6 +1,14 @@
 name: first workflow
-on:
-  # 1
+on: workflow_dispatch
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: hello world
+        uses: echo "hello world"
+
+        # 1
   # push:
   #   branches: ["main", "develop"]
   #   paths:
@@ -23,12 +31,3 @@ on:
   #     - "feature/*"
   #     - "develop"
   #     - "main"
-
-  workflow_dispatch:
-
-jobs:
-  echo:
-    runs-on: ubuntu-latest
-    steps:
-      - name: hello world
-        uses: echo "hello world"
