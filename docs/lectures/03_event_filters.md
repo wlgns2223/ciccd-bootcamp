@@ -19,6 +19,8 @@ on:
 
 **Activity Types:**
 
+## 삭제 예정
+
 - `created`: 브랜치나 태그가 생성될 때
 - `deleted`: 브랜치나 태그가 삭제될 때
 - `edited`: 브랜치나 태그가 편집될 때

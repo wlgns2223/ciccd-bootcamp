@@ -1,8 +1,5 @@
 name: first workflow
-on:
-  push:
-    branches: [main, develop]
-
+on: push
 jobs:
   # job 이름
   # npm run lint
