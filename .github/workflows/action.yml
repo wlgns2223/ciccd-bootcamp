@@ -1,5 +1,7 @@
 name: first workflow
-on: [workflow_dispatch, push]
+on:
+  push:
+    branches: [main, develop, feat/*]
 
 jobs:
   echo:
@@ -7,3 +9,11 @@ jobs:
     steps:
       - name: hello world
         run: echo "${{ toJson(github) }}"
+
+      - name: 메인 브랜치에서만 실행되는 step
+        if: github.ref_name == 'main'
+        run: echo 'main 브랜치 ${{ github.ref_name }}'
+
+      - name: fesi10 브랜치에서만 실행되는 step
+        if: github.ref_name == 'fesi10'
+        run: echo 'fesi10 브랜치 ${{ github.ref_name }} '
