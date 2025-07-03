@@ -1,43 +1,104 @@
-name: CI Pipeline
+name: context test
+on: [pull_request, push]
 
-# Workflow가 실행될 조건
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main]
-
-# 실행할 작업들
 jobs:
-  # 테스트 및 빌드 작업
-  test-and-build:
-    # 실행할 환경 (Ubuntu 최신 버전)
+  exercise2_2_pull_request:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-
-    # 작업 단계들
     steps:
-      # 1단계: 코드 체크아웃
-      - name: Checkout code
+      - name: checkout code
         uses: actions/checkout@v4
 
-      # 2단계: Node.js 설정
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      # 3단계: 의존성 설치
-      - name: Install dependencies
+      - name: install depencies
         run: npm ci
 
-      # 4단계: 린트 검사
-      - name: Run linting
-        run: npm run lint
+      - name: PR이 열릴때
+        if: github.event.action == 'opened'
+        run: npm run test
 
-      # 5단계: 빌드 테스트
-      - name: Build application
+      - name: PR에 새로운 커밋이 푸쉬됐을때
+        if: github.event.action == 'synchronize'
+        run: npm run test
+
+      - name: PR이 닫힐때
+        if: github.event.action == 'closed'
+        run: echo '임시 파일 삭제...'
+
+  exercise2_4_feat:
+    if: startsWith(github.ref_name,'feat/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: install depencies
+        run: npm ci
+
+      - name: Run test
+        run: npm run test
+
+  exercise2_4_develop:
+    if: github.ref_name == 'develop'
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: install depencies
+        run: npm ci
+
+      - name: Run test
+        run: npm run test
+
+      - name: build
         run: npm run build
 
-      # 6단계: 성공 메시지 출력
-      - name: Success message
-        run: echo "🎉 CI Pipeline completed successfully!"
+      - name: Staging
+        run: echo "Staging deploy..."
+
+  exercise2_4_main:
+    if: github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: install depencies
+        run: npm ci
+
+      - name: feat/* 브랜치는 테스트만 실행
+        run: npm run test
+
+      - name: build
+        run: npm run build
+
+      - name: Production
+        run: echo "Production deploy..."
+
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: hello world
+        run: echo "${{ toJson(github) }}"
+
+      - name: 메인 브랜치에서만 실행되는 step
+        if: github.ref_name == 'main'
+        run: echo 'main 브랜치 ${{ github.ref_name }}'
+
+      - name: fesi10 브랜치에서만 실행되는 step
+        if: github.ref_name == 'fesi10'
+        run: echo 'fesi10 브랜치 ${{ github.ref_name }} '
+
+  event:
+    runs-on: ubuntu-latest
+    steps:
+      - name: push 이벤트
+        if: github.event_name == 'push'
+        run: echo '${{ toJson(github.event) }}'
+
+      - name: pull request 이벤트
+        if: github.event_name == 'pull_request'
+        run: |
+          echo 'PR 제목: ${{ github.event.pull_request.title }}'
+          echo 'PR 번호: ${{ github.event.pull_request.number }}'
+          echo 'PR 작성자: ${{ github.event.pull_request.user.login }}'
