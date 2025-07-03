@@ -2,7 +2,7 @@ name: first workflow
 on:
   pull_request:
     branches:
-      - develop
+      - develop # open -> merge될 base branch
 
   # push:
   #   branches: [main, develop]
