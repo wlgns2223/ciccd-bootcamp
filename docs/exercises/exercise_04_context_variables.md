@@ -1,5 +1,11 @@
 # Exercise 04: GitHub Actions Context Variables (프론트엔드 핵심)
 
+# 실습
+
+## 04_exercise 파일 실습 1~3번
+
+## 03_Event_filtering 파일 실습 2,4번
+
 ## 목표
 
 프론트엔드 개발에서 GitHub Actions를 사용할 때 꼭 알아야 하는 핵심 Context 변수들을 실습합니다.
