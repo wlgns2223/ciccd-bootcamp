@@ -5,11 +5,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Hello world
-        run: echo "Hello World"
-
+      # 레포지토리 -> 가상환경으로 코드 가져오기
       - name: Checkout Code
         uses: actions/checkout@v4 # actions -> 재사용가능한 작업
 
+        # 노드 버전을 맞춰야할 경우에 가상환경에 노드를 추가 설치
+      - name: install nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: install deps
-        run: npm ci
+        run: npm ci # ci -> clean install -> package-lock.json
+
+      - name: run build
+        run: npm run build
