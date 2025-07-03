@@ -41,13 +41,17 @@ jobs:
       - name: Checkout Codes
         uses: actions/checkout@v4
 
+      - name: Get Last Commit Meessage
+        id: commit-message
+        run: echo "msg=$(git log -1 --pretty=%B) >> $GITHUB_OUTPUT"
+
       - name: Create PR
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.CICD }}
           base: main
           branch: ${{github.ref}}
-          title: ${{github.event.pull_request.title }}
+          title: ${{ steps.commit-message.outputs.msg }}
           body: |
             ## PR 요약
             ### 사전 점검 완료
