@@ -1,11 +1,9 @@
-# 워크플로우 -> 자동화 할 작업의 설계서 -> action.yml
-#
-
 name: first workflow
-on: push # 이벤트 트리거
-jobs: # jobs:
-  hello_world: # job의 이름
+on: push
+jobs:
+  # job 이름
+  build:
     runs-on: ubuntu-latest
-    steps: # step 정의
-      - name: Hello World # step의 이름
-        run: echo "Hello, World!" # run : <cli 명령어>
+    steps:
+      - name: Hello world
+        run: echo "Hello World"
