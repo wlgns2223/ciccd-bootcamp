@@ -9,7 +9,7 @@ describe("Counter Component", () => {
     expect(screen.getByText("0")).toBeInTheDocument();
     expect(screen.getByTestId("increment-button")).toBeInTheDocument();
     expect(screen.getByTestId("decrement-button")).toBeInTheDocument();
-    expect(screen.getByTestId("reset-button")).toBeInTheDocument();
+    expect(screen.getByTestId("reset-button")).not.toBeInTheDocument();
   });
 
   test("renders with custom props", () => {
