@@ -1,11 +1,15 @@
 name: first workflow
 on:
-  push:
-    branches: [main, develop]
-    paths:
-      # - "src/**" # src/** 하위에 있는 파일이 변경되면 워크플로우 실행
-      # - "package.json"
-      - "!docs/**" # !<파일명> | <디렉토리..> : 특정 파일 및 디렉토리는 워크플로우 실행에서 제외
+  pull_request:
+    branches:
+      - main
+
+  # push:
+  #   branches: [main, develop]
+  # paths:
+  #   # - "src/**" # src/** 하위에 있는 파일이 변경되면 워크플로우 실행
+  #   # - "package.json"
+  #   - "!docs/**" # !<파일명> | <디렉토리..> : 특정 파일 및 디렉토리는 워크플로우 실행에서 제외
 
 jobs:
   # job 이름
