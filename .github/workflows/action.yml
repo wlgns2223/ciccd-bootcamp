@@ -3,10 +3,10 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - dev
+      - develop
   workflow_run:
     branches:
-      - dev
+      - develop
 
 jobs:
   lint-test-build:
@@ -48,7 +48,7 @@ jobs:
         with:
           token: ${{ secrets.CICD }}
           base: main
-          branch: dev
+          branch: develop
           title: ${{github.event.pull_request.title }}
           body: |
             ## PR 요약
@@ -57,4 +57,4 @@ jobs:
             - ✅ Unit Tests  
             - ✅ Build Process
           delete-branch: false
-          commit-message: "chore: sync dev branch to main [skip ci]"
+          commit-message: "chore: sync develop branch to main [skip ci]"
