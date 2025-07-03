@@ -1,6 +1,7 @@
 import Counter from "../components/Counter";
 
 // 변경
+// 변경
 
 export default function Home() {
   return (
@@ -14,4 +15,3 @@ export default function Home() {
     </div>
   );
 }
-//
