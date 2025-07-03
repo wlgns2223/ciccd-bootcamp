@@ -46,7 +46,7 @@ jobs:
         with:
           token: ${{ secrets.CICD }}
           base: main
-          branch: develop
+          branch: ${{github.ref}}
           title: ${{github.event.pull_request.title }}
           body: |
             ## PR 요약
@@ -54,4 +54,3 @@ jobs:
             - ✅ Linting
             - ✅ Unit Tests  
             - ✅ Build Process
-          delete-branch: false
