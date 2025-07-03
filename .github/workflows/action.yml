@@ -1,7 +1,7 @@
 name: context test
 on:
-  push:
-    branches: [main, develop, fesi10]
+  # push:
+  #   branches: [main, develop, fesi10]
   pull_request:
 
 jobs:
