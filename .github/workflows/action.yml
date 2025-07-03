@@ -6,28 +6,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: hello world
-        uses: echo "hello world"
+        run: echo "hello world"
+# 1
+# push:
+#   branches: ["main", "develop"]
+#   paths:
+#     - "src/**"
 
-        # 1
-  # push:
-  #   branches: ["main", "develop"]
-  #   paths:
-  #     - "src/**"
+# 2
+# pull_request:
+#   types: ["opened", "synchronize", "closed"]
 
-  # 2
-  # pull_request:
-  #   types: ["opened", "synchronize", "closed"]
+# 3
+# pull_request:
+#   paths:
+#     - "src/fontend/**"
+#     - "src/backend/**"
+#     - "config/**"
 
-  # 3
-  # pull_request:
-  #   paths:
-  #     - "src/fontend/**"
-  #     - "src/backend/**"
-  #     - "config/**"
-
-  #4
-  # push:
-  #   branches:
-  #     - "feature/*"
-  #     - "develop"
-  #     - "main"
+#4
+# push:
+#   branches:
+#     - "feature/*"
+#     - "develop"
+#     - "main"
