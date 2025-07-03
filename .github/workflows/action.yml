@@ -75,30 +75,30 @@ jobs:
       - name: Production
         run: echo "Production deploy..."
 
-  # echo:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: hello world
-  #       run: echo "${{ toJson(github) }}"
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: hello world
+        run: echo "${{ toJson(github) }}"
 
-  #     - name: 메인 브랜치에서만 실행되는 step
-  #       if: github.ref_name == 'main'
-  #       run: echo 'main 브랜치 ${{ github.ref_name }}'
+      - name: 메인 브랜치에서만 실행되는 step
+        if: github.ref_name == 'main'
+        run: echo 'main 브랜치 ${{ github.ref_name }}'
 
-  #     - name: fesi10 브랜치에서만 실행되는 step
-  #       if: github.ref_name == 'fesi10'
-  #       run: echo 'fesi10 브랜치 ${{ github.ref_name }} '
+      - name: fesi10 브랜치에서만 실행되는 step
+        if: github.ref_name == 'fesi10'
+        run: echo 'fesi10 브랜치 ${{ github.ref_name }} '
 
-  # event:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: push 이벤트
-  #       if: github.event_name == 'push'
-  #       run: echo '${{ toJson(github.event) }}'
+  event:
+    runs-on: ubuntu-latest
+    steps:
+      - name: push 이벤트
+        if: github.event_name == 'push'
+        run: echo '${{ toJson(github.event) }}'
 
-  #     - name: pull request 이벤트
-  #       if: github.event_name == 'pull_request'
-  #       run: |
-  #         echo 'PR 제목: ${{ github.event.pull_request.title }}'
-  #         echo 'PR 번호: ${{ github.event.pull_request.number }}'
-  #         echo 'PR 작성자: ${{ github.event.pull_request.user.login }}'
+      - name: pull request 이벤트
+        if: github.event_name == 'pull_request'
+        run: |
+          echo 'PR 제목: ${{ github.event.pull_request.title }}'
+          echo 'PR 번호: ${{ github.event.pull_request.number }}'
+          echo 'PR 작성자: ${{ github.event.pull_request.user.login }}'
