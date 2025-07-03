@@ -1,7 +1,14 @@
 import Counter from "../components/Counter";
+import { supabase } from "./lib/supabaseClient";
 
 // 변경
-export default function Home() {
+export default async function Home() {
+  try {
+    const { data: user } = await supabase.from("users").select("*");
+    console.log(user);
+  } catch (error) {
+    console.error(error);
+  }
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <main className="container mx-auto px-4">
