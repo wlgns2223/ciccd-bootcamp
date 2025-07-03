@@ -20,8 +20,13 @@ jobs:
       - name: run lint
         run: npm run lint
 
+  # lint -> build
   build:
     runs-on: ubuntu-latest
+
+    # builb job 이전에 lint job이 선행되어야함.
+    # 순차적으로 실행이 되어야함
+    needs: lint
     steps:
       # 레포지토리 -> 가상환경으로 코드 가져오기
       - name: Checkout Code
