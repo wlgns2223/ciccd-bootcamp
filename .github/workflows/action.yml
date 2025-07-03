@@ -7,5 +7,9 @@ jobs:
     steps:
       - name: Hello world
         run: echo "Hello World"
-      - name: Checkout
-        use: actions/checkout@v4
+
+      - name: Checkout Code
+        uses: actions/checkout@v4 # actions -> 재사용가능한 작업
+
+      - name: install deps
+        run: npm ci
