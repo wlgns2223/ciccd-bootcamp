@@ -25,4 +25,7 @@ jobs:
 
       - name: pull request 이벤트
         if: github.event_name == 'pull_request'
-        run: echo '${{ toJson(github.event) }}'
+        run: |
+          echo '${{ github.event.pull_request.title }}'
+          echo '${{ github.event.pull_request.number }}'
+          echo '${{ github.event.pull_request.user.login }}'
