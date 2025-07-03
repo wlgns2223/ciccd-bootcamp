@@ -2,7 +2,7 @@ name: first workflow
 on:
   pull_request:
     branches:
-      - main
+      - develop
 
   # push:
   #   branches: [main, develop]
