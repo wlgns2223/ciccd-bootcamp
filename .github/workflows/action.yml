@@ -1,31 +1,56 @@
-name: context test
+name: Dev To Main PR Workflow
 on:
-  pull_request
-  # push:
-  #   branches: [main, develop, fesi10]
+  pull_request:
+    types: [closed]
+    branches:
+      - develop
+  workflow_dispatch:
 
 jobs:
-  echo:
+  lint-test-build:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
-      - name: hello world
-        run: echo "${{ toJson(github) }}"
+      - name: Check Out Code
+        uses: actions/checkout@v4
 
-      - name: 메인 브랜치에서만 실행되는 step
-        if: github.ref_name == 'main'
-        run: echo 'main 브랜치 ${{ github.ref_name }}'
+        # 선택사항
+      - name: SetUp Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
-      - name: fesi10 브랜치에서만 실행되는 step
-        if: github.ref_name == 'fesi10'
-        run: echo 'fesi10 브랜치 ${{ github.ref_name }} '
+      - name: Install Deps
+        run: npm ci
 
-  event:
+      - name: Run Linting
+        run: npm run lint
+
+      - name: Run Test
+        run: npm run test
+
+      - name: Run Build
+        run: npm run build
+
+  create-pr:
+    name: Create PR To Main
+    needs: lint-test-build
     runs-on: ubuntu-latest
+    if: success()
     steps:
-      - name: push 이벤트
-        if: github.event_name == 'push'
-        run: echo '${{ toJson(github.event) }}'
+      - name: Checkout Codes
+        uses: actions/checkout@v4
 
-      - name: pull request 이벤트
-        if: github.event_name == 'pull_request'
-        run: echo '${{ toJson(github.event) }}'
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.CICD }}
+          base: main
+          branch: ${{github.ref}}
+          title: ${{github.event.pull_request.title }}
+          body: |
+            ## PR 요약
+            ### 사전 점검 완료
+            - ✅ Linting
+            - ✅ Unit Tests  
+            - ✅ Build Process
