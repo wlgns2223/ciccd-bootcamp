@@ -55,4 +55,3 @@ jobs:
             - ✅ Unit Tests  
             - ✅ Build Process
           delete-branch: false
-          commit-message: "chore: sync develop branch to main [skip ci]"
