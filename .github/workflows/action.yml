@@ -34,7 +34,7 @@ jobs:
       - name: install depencies
         run: npm ci
 
-      - name: feat/* 브랜치는 테스트만 실행
+      - name: Run test
         run: npm run test
 
   exercise2_4_develop:
@@ -47,7 +47,7 @@ jobs:
       - name: install depencies
         run: npm ci
 
-      - name: feat/* 브랜치는 테스트만 실행
+      - name: Run test
         run: npm run test
 
       - name: build
