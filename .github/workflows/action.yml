@@ -1,104 +1,60 @@
-name: context test
-on: [pull_request, push]
+name: Dev To Main PR Workflow
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - dev
+  workflow_run:
+    branches:
+      - dev
 
 jobs:
-  exercise2_2_pull_request:
-    if: github.event_name == 'pull_request'
+  lint-test-build:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
-      - name: checkout code
+      - name: Check Out Code
         uses: actions/checkout@v4
 
-      - name: install depencies
+        # 선택사항
+      - name: SetUp Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Deps
         run: npm ci
 
-      - name: PR이 열릴때
-        if: github.event.action == 'opened'
+      - name: Run Linting
+        run: npm run lint
+
+      - name: Run Test
         run: npm run test
 
-      - name: PR에 새로운 커밋이 푸쉬됐을때
-        if: github.event.action == 'synchronize'
-        run: npm run test
-
-      - name: PR이 닫힐때
-        if: github.event.action == 'closed'
-        run: echo '임시 파일 삭제...'
-
-  exercise2_4_feat:
-    if: startsWith(github.ref_name,'feat/')
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v4
-
-      - name: install depencies
-        run: npm ci
-
-      - name: Run test
-        run: npm run test
-
-  exercise2_4_develop:
-    if: github.ref_name == 'develop'
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v4
-
-      - name: install depencies
-        run: npm ci
-
-      - name: Run test
-        run: npm run test
-
-      - name: build
+      - name: Run Build
         run: npm run build
 
-      - name: Staging
-        run: echo "Staging deploy..."
-
-  exercise2_4_main:
-    if: github.ref_name == 'main'
+  create-pr:
+    name: Create PR To Main
+    needs: lint-test-build
     runs-on: ubuntu-latest
+    if: success()
     steps:
-      - name: checkout code
+      - name: Checkout Codes
         uses: actions/checkout@v4
 
-      - name: install depencies
-        run: npm ci
-
-      - name: feat/* 브랜치는 테스트만 실행
-        run: npm run test
-
-      - name: build
-        run: npm run build
-
-      - name: Production
-        run: echo "Production deploy..."
-
-  echo:
-    runs-on: ubuntu-latest
-    steps:
-      - name: hello world
-        run: echo "${{ toJson(github) }}"
-
-      - name: 메인 브랜치에서만 실행되는 step
-        if: github.ref_name == 'main'
-        run: echo 'main 브랜치 ${{ github.ref_name }}'
-
-      - name: fesi10 브랜치에서만 실행되는 step
-        if: github.ref_name == 'fesi10'
-        run: echo 'fesi10 브랜치 ${{ github.ref_name }} '
-
-  event:
-    runs-on: ubuntu-latest
-    steps:
-      - name: push 이벤트
-        if: github.event_name == 'push'
-        run: echo '${{ toJson(github.event) }}'
-
-      - name: pull request 이벤트
-        if: github.event_name == 'pull_request'
-        run: |
-          echo 'PR 제목: ${{ github.event.pull_request.title }}'
-          echo 'PR 번호: ${{ github.event.pull_request.number }}'
-          echo 'PR 작성자: ${{ github.event.pull_request.user.login }}'
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.CICD }}
+          base: main
+          branch: dev
+          title: ${{github.event.pull_request.title }}
+          body: |
+            ## PR 요약
+            ### 사전 점검 완료
+            - ✅ Linting
+            - ✅ Unit Tests  
+            - ✅ Build Process
+          delete-branch: false
+          commit-message: "chore: sync dev branch to main [skip ci]"
