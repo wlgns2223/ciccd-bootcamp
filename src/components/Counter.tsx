@@ -10,7 +10,7 @@ interface CounterProps {
 export default function Counter({ initialValue = 0, title = "Counter" }: CounterProps) {
   const [count, setCount] = useState(initialValue);
 
-  const increment = () => setCount((prev) => prev + 3);
+  const increment = () => setCount((prev) => prev + 1);
   const decrement = () => setCount((prev) => prev - 1);
   const reset = () => setCount(initialValue);
 
