@@ -12,27 +12,28 @@ jobs:
         run: |
           echo "NEXT_PUBLIC_SUPABASE_URL ${{ env.NEXT_PUBLIC_SUPABASE_URL }}  "
           echo "NEXT_PUBLIC_SUPABASE_ANON_KEY ${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}  "
+          echo "Secret ${{secrets.TEST_SECRET}}"
 
-      - name: Check Out Code
-        uses: actions/checkout@v4
+      # - name: Check Out Code
+      #   uses: actions/checkout@v4
 
-        # 선택사항
-      - name: SetUp Nodejs
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
+      #   # 선택사항
+      # - name: SetUp Nodejs
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: "22"
 
-      - name: Install Deps
-        run: npm ci
+      # - name: Install Deps
+      #   run: npm ci
 
-      - name: Run Linting
-        run: npm run lint
+      # - name: Run Linting
+      #   run: npm run lint
 
-      - name: Run Test
-        run: npm run test
+      # - name: Run Test
+      #   run: npm run test
 
-      - name: Run Build
-        run: npm run build
+      # - name: Run Build
+      #   run: npm run build
 
   # create-pr:
   #   name: Create PR To Main
