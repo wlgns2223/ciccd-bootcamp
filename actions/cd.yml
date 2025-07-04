@@ -30,6 +30,7 @@ jobs:
       - name: Lint
         run: npm run lint
 
+        # main 브랜치에서는  e2e 테스트 위주
       - name: Test
         run: npm run test
 
