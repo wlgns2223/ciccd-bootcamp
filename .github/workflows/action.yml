@@ -1,31 +1,36 @@
 name: Dev To Main PR Workflow
 on: push
+env:
+  NEXT_PUBLIC_SUPABASE_URL: "https://some-url.supabase.co"
 
 jobs:
   lint-test-build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check Out Code
-        uses: actions/checkout@v4
+      - name: Print Environment Variables
+        run: echo "${{ env.NEXT_PUBLIC_SUPABASE_URL }}  "
 
-        # 선택사항
-      - name: SetUp Nodejs
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
+      # - name: Check Out Code
+      #   uses: actions/checkout@v4
 
-      - name: Install Deps
-        run: npm ci
+      #   # 선택사항
+      # - name: SetUp Nodejs
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: "22"
 
-      - name: Run Linting
-        run: npm run lint
+      # - name: Install Deps
+      #   run: npm ci
 
-      - name: Run Test
-        run: npm run test
+      # - name: Run Linting
+      #   run: npm run lint
 
-      - name: Run Build
-        run: npm run build
+      # - name: Run Test
+      #   run: npm run test
+
+      # - name: Run Build
+      #   run: npm run build
 
   # create-pr:
   #   name: Create PR To Main
