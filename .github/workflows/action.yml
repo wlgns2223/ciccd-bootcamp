@@ -4,8 +4,8 @@ jobs:
   lint-test-build:
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_SUPABASE_URL: "https://gozfabisnazsgsehjjlq.supabase.co"
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvemZhYmlzbmF6c2dzZWhqamxxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1NTc1NjYsImV4cCI6MjA2NzEzMzU2Nn0.rWEQbrKwUQ5idDDlnUfZJsQQaWdfLhSL_Opsd8IaHNU"
+      NEXT_PUBLIC_SUPABASE_URL: ${{secrets.NEXT_PUBLIC_SUPABASE_URL}}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY}}
 
     steps:
       - name: Print Environment Variables
@@ -14,26 +14,26 @@ jobs:
           echo "NEXT_PUBLIC_SUPABASE_ANON_KEY ${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}  "
           echo "Secret ${{secrets.TEST_SECRET}}"
 
-      # - name: Check Out Code
-      #   uses: actions/checkout@v4
+      - name: Check Out Code
+        uses: actions/checkout@v4
 
-      #   # 선택사항
-      # - name: SetUp Nodejs
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: "22"
+        # 선택사항
+      - name: SetUp Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
-      # - name: Install Deps
-      #   run: npm ci
+      - name: Install Deps
+        run: npm ci
 
-      # - name: Run Linting
-      #   run: npm run lint
+      - name: Run Linting
+        run: npm run lint
 
-      # - name: Run Test
-      #   run: npm run test
+      - name: Run Test
+        run: npm run test
 
-      # - name: Run Build
-      #   run: npm run build
+      - name: Run Build
+        run: npm run build
 
   # create-pr:
   #   name: Create PR To Main
