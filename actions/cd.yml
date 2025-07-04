@@ -1,0 +1,38 @@
+name: When Merged To Main
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+env:
+  NEXT_PUBLIC_SUPABASE_URL: ${{secrets.NEXT_PUBLIC_SUPABASE_URL}}
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY}}
+
+jobs:
+  if_merged:
+    name: Test And Build
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Codes
+        uses: actions/checkout@v4
+
+      - name: Install Deps
+        run: npm ci
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+  deploy:
+    name: Trigger Deploy Hook
+    runs-on: ubuntu-latest
+    needs: if_merged
+    steps:
+      - name: Trigger Deploy Hook
+        run: curl -X POST ${{ secrets.DEPLOY_HOOK }}
