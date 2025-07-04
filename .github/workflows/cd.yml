@@ -42,5 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: lint-test-build
     steps:
+      # Deploy Hook url로 배포를 트리거
+      # Deploy Hook Vercel Settings -> git -> deploy hook
       - name: Trigger Deploy Hook
         run: curl -X POST ${{ secrets.DEPLOY_HOOK }}
