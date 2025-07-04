@@ -1,5 +1,6 @@
 import Counter from "../components/Counter";
 import { supabase } from "./lib/supabaseClient";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export default async function Home() {
   try {
@@ -16,6 +17,7 @@ export default async function Home() {
           <Counter />
         </div>
       </main>
+      <SpeedInsights />
     </div>
   );
 }
