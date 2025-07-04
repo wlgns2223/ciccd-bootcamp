@@ -1,5 +1,8 @@
 name: Dev To Main PR Workflow
-on: push
+on:
+  pull_request:
+    types: [closed]
+    branches: [develop] # base: develop <---- feat/*, fix* ...
 jobs:
   lint-test-build:
     runs-on: ubuntu-latest
@@ -35,25 +38,25 @@ jobs:
       - name: Run Build
         run: npm run build
 
-  # create-pr:
-  #   name: Create PR To Main
-  #   needs: lint-test-build
-  #   runs-on: ubuntu-latest
-  #   if: success()
-  #   steps:
-  #     - name: Checkout Codes
-  #       uses: actions/checkout@v4
+  create-pr:
+    # 선택 사항
+    name: Create PR To Main
+    needs: lint-test-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codes
+        uses: actions/checkout@v4
 
-  #     - name: Create PR
-  #       uses: peter-evans/create-pull-request@v7
-  #       with:
-  #         token: ${{ secrets.CICD }}
-  #         base: main
-  #         branch: ${{github.ref}}
-  #         title: ${{github.event.pull_request.title }}
-  #         body: |
-  #           ## PR 요약
-  #           ### 사전 점검 완료
-  #           - ✅ Linting
-  #           - ✅ Unit Tests
-  #           - ✅ Build Process
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.CICD }}
+          base: main
+          branch: ${{github.ref}} # /head/ref/develop
+          title: ${{github.event.pull_request.title }}
+          body: |
+            ## PR 요약
+            ### 사전 점검 완료
+            - ✅ Linting
+            - ✅ Unit Tests
+            - ✅ Build Process
