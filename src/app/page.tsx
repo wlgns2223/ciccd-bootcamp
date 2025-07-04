@@ -2,6 +2,7 @@ import Counter from "../components/Counter";
 import { supabase } from "./lib/supabaseClient";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+// 메인 브랜치 변경되도 배포 안함
 export default async function Home() {
   try {
     const { data: user } = await supabase.from("users").select("*");
