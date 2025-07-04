@@ -1,44 +1,38 @@
 name: Dev To Main PR Workflow
 on: push
-env:
-  NEXT_PUBLIC_SUPABASE_URL: "https://some-url.supabase.co"
-
 jobs:
   lint-test-build:
     runs-on: ubuntu-latest
     env:
-      JOB_LEVEL_ENV: "job level 환경변수"
+      NEXT_PUBLIC_SUPABASE_URL: "https://gozfabisnazsgsehjjlq.supabase.co"
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvemZhYmlzbmF6c2dzZWhqamxxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1NTc1NjYsImV4cCI6MjA2NzEzMzU2Nn0.rWEQbrKwUQ5idDDlnUfZJsQQaWdfLhSL_Opsd8IaHNU"
 
     steps:
       - name: Print Environment Variables
-        run: echo "NEXT_PUBLIC_SUPABASE_URL ${{ env.JOB_LEVEL_ENV }}  "
+        run: |
+          echo "NEXT_PUBLIC_SUPABASE_URL ${{ env.NEXT_PUBLIC_SUPABASE_URL }}  "
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY ${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}  "
 
-  print-env:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print Environment Variables
-        run: echo "JOB_LEVEL_ENV ${{ env.JOB_LEVEL_ENV }}  "
+      - name: Check Out Code
+        uses: actions/checkout@v4
 
-      # - name: Check Out Code
-      #   uses: actions/checkout@v4
+        # 선택사항
+      - name: SetUp Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
-      #   # 선택사항
-      # - name: SetUp Nodejs
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: "22"
+      - name: Install Deps
+        run: npm ci
 
-      # - name: Install Deps
-      #   run: npm ci
+      - name: Run Linting
+        run: npm run lint
 
-      # - name: Run Linting
-      #   run: npm run lint
+      - name: Run Test
+        run: npm run test
 
-      # - name: Run Test
-      #   run: npm run test
-
-      # - name: Run Build
-      #   run: npm run build
+      - name: Run Build
+        run: npm run build
 
   # create-pr:
   #   name: Create PR To Main
