@@ -6,10 +6,18 @@ env:
 jobs:
   lint-test-build:
     runs-on: ubuntu-latest
+    env:
+      JOB_LEVEL_ENV: "job level 환경변수"
 
     steps:
       - name: Print Environment Variables
-        run: echo "${{ env.NEXT_PUBLIC_SUPABASE_URL }}  "
+        run: echo "NEXT_PUBLIC_SUPABASE_URL ${{ env.NEXT_PUBLIC_SUPABASE_URL }}  "
+
+  print-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Environment Variables
+        run: echo "JOB_LEVEL_ENV ${{ env.JOB_LEVEL_ENV }}  "
 
       # - name: Check Out Code
       #   uses: actions/checkout@v4
