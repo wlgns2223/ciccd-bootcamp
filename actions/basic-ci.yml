@@ -1,3 +1,7 @@
+# 1. feat/*, fix/* ..  -> push
+# 2. PR 작성 develop <--- feat/*,fix/*...
+# 3. PR 닫음 -> develop -> main 자동 PR
+
 name: Dev To Main PR Workflow
 on:
   pull_request:
