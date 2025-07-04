@@ -1,27 +1,34 @@
-name: When Merged To Main
+# CD
+# 1. main 브랜치로 온 PR이 merge
+# 2. 린트,테스트,빌드 <--- Vercel 자동배포는 비활성화.
+# 3. Vercel 배포
+
+name: Continuous Delivery
 on:
   pull_request:
     branches:
       - main
     types:
-      - closed
+      - closed # merged, closed
 
 env:
   NEXT_PUBLIC_SUPABASE_URL: ${{secrets.NEXT_PUBLIC_SUPABASE_URL}}
   NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY}}
 
 jobs:
-  if_merged:
-    name: Test And Build
+  lint-test-build:
+    name: Lint,Test And Build
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-
     steps:
       - name: Download Codes
         uses: actions/checkout@v4
 
       - name: Install Deps
         run: npm ci
+
+      - name: Lint
+        run: npm run lint
 
       - name: Test
         run: npm run test
@@ -32,7 +39,7 @@ jobs:
   deploy:
     name: Trigger Deploy Hook
     runs-on: ubuntu-latest
-    needs: if_merged
+    needs: lint-test-build
     steps:
       - name: Trigger Deploy Hook
         run: curl -X POST ${{ secrets.DEPLOY_HOOK }}

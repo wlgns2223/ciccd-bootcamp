@@ -1,8 +1,10 @@
 name: Dev To Main PR Workflow
 on:
   pull_request:
-    types: [closed]
-    branches: [develop] # base: develop <---- feat/*, fix* ...
+    branches:
+      - develop # base: develop <---- feat/*, fix* ...
+    types:
+      - closed
 jobs:
   lint-test-build:
     runs-on: ubuntu-latest
